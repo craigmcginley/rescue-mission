@@ -1,0 +1,23 @@
+<% if @question.errors.any? %>
+  <ul>
+    <% @question.errors.full_messages.each do |error| %>
+      <li> <%= error %> </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_for @question do |f| %>
+
+  <strong>Title: </strong>
+  <%= f.text_field :title %><br>
+
+  <strong>Body: </strong>
+  <%= f.text_area :body %><br>
+
+  <%= f.submit %>
+<% end %>
+
+<br>
+<%= link_to 'Back to Question', question_path(@question) %>
+<br>
+<%= link_to 'Back to All Questions', questions_path %>
