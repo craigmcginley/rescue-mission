@@ -14,6 +14,8 @@
   <strong>Body: </strong>
   <%= f.text_area :body %><br>
 
+  <%= f.hidden_field :user_id, value: session[:uid]%>
+
   <%= f.submit %>
 <% end %>
 

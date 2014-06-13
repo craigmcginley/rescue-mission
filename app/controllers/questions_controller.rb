@@ -1,15 +1,18 @@
 class QuestionsController < ApplicationController
 
   def index
-    @questions = Question.order('created_at DESC')
+    @questions = Question.order(created_at: :desc)
   end
 
   def new
+    authenticate!
     @question = Question.new
   end
 
   def create
     @question = Question.new(question_params)
+    @question.user_id = session[:user_id]
+    binding.pry
     if @question.save
       redirect_to question_path(@question)
     else
@@ -39,16 +42,19 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    Question.destroy(params[:id])
+    question = Question.find(params[:id])
+    question.answers.each do |answer|
+      answer.destroy
+    end
+    question.destroy
+    flash[:notice] = "Your question was removed."
     redirect_to questions_path
   end
 
   private
 
   def question_params
-    # @markdown = markdown
-    params.require(:question).permit(:title, :body)
-    # @markdown.render(params[:body])
+    params.require(:question).permit(:title, :body, :user_id)
   end
 
 end
