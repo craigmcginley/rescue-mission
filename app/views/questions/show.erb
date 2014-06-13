@@ -19,10 +19,11 @@ Posted by: <%= @question.user.name %><br>
         ***BEST ANSWER***
       <% end %>
       <%= answer.body_html.html_safe %>
-      <%= form_for answer do |f| %>
-        <%= f.submit value: "Best Answer" %>
+      <% if session[:user_id] == @question.user_id %>
+        <%= form_for answer do |f| %>
+          <%= f.submit value: "Best Answer" %>
+        <% end %>
       <% end %>
-
     </li>
   <% end %>
 </ul>
