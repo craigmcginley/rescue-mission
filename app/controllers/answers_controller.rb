@@ -13,6 +13,17 @@ class AnswersController < ApplicationController
     end
   end
 
+  def update
+    if @answer = Answer.where(best_answer: true).first
+      @answer.best_answer = false
+      @answer.save!
+    end
+    @answer = Answer.find(params[:id])
+    @answer.best_answer = true
+    @answer.save!
+    redirect_to question_path(@answer.question_id)
+  end
+
   private
 
   def answer_params

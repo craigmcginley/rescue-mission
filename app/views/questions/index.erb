@@ -12,7 +12,7 @@
       <td>
         <%= link_to question.title, question_path(question) %>
       </td>
-      <td></td>
+      <td><%= question.user.name %></td>
       <td><%= question.created_at %></td>
     </tr>
   <% end %>

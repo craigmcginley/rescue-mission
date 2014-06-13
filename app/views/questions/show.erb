@@ -2,22 +2,25 @@
 
 <p><%= @question.body_html.html_safe %></p>
 
-Posted by:
+Posted by: <%= @question.user.name %><br>
 
 <br>
 <%= form_for [@question, @answer] do |f| %>
-  <strong>Answer This Question (at least 50 characters):</strong>
+  <%= f.label :body, "Answer this question:" %><br>
   <%= f.text_area :body %>
   <%= f.submit %>
 <% end %>
 
 <h3>Answers:</h3>
 <ul>
-  <% @question.answers.order(created_at: :desc).each do |answer| %>
+  <% @question.answers.order(best_answer: :desc, created_at: :desc).each do |answer| %>
     <li>
-      <%= answer.body_html.html_safe %> |
+      <% if answer.best_answer == true %>
+        ***BEST ANSWER***
+      <% end %>
+      <%= answer.body_html.html_safe %>
       <%= form_for answer do |f| %>
-        <%= f.submit, value: "Best Answer" %>
+        <%= f.submit value: "Best Answer" %>
       <% end %>
 
     </li>
