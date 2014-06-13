@@ -1,10 +1,9 @@
 class User < ActiveRecord::Base
-
-  validates :username, :password, presence: true
-  validates :username, uniqueness: true
-
-  has_many :questions
-  has_many :answers
-  has_many :answers, through: :questions
-
+  def self.create_with_omniauth(auth)
+    create! do |user|
+      user.provider = auth["provider"]
+      user.uid = auth["uid"]
+      user.name = auth["info"]["name"]
+    end
+  end
 end
